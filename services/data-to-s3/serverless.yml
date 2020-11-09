@@ -33,7 +33,11 @@ provider:
     - Effect: "Allow"
       Action:
         - "s3:PutObject"
-      Resource: "arn:aws:s3:::covid-19-etl-timothygithinji/*"
+      Resource: "arn:aws:s3:::covid-19-data-etl-timothygithinji/*"
+    - Effect: "Allow"
+      Action:
+        - "sns:Publish"
+      Resource: "arn:aws:sns:us-east-1:144272576793:covid-19-etl-SNS"
 
 # you can define service wide environment variables here
 #  environment:
