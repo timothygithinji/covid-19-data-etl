@@ -1,83 +1,41 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
-service: s3-to-dynamodb
-# app and org for use with dashboard.serverless.com
+service: covid-19-data-etl-s3-to-dynamodb
 app: covid-19-data-etl
 org: timothygithinji
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
 frameworkVersion: '2'
 
 provider:
   name: aws
   runtime: python3.8
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
-
-# you can add statements to the Lambda function's IAM Role here
+  timeout: 30
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "s3:GetObject"
-      Resource: "arn:aws:s3:::covid-19-data-etl-timothygithinji/*"
+      Resource: "arn:aws:s3:::covid-19-data-etl-timothygithinji/data/*"
     - Effect: "Allow"
       Action:
         - "sns:Publish"
-      Resource: "arn:aws:sns:us-east-1:144272576793:covid-19-etl-SNS"
+      Resource: "arn:aws:sns:us-east-1:144272576793:covid-19-data-etl"
     - Effect: "Allow"
       Action:
         - "dynamodb:PutItem"
-      Resource: "arn:aws:dynamodb:us-east-1:144272576793:table/covid-19-etl"
+      Resource: "arn:aws:dynamodb:us-east-1:144272576793:table/covid-19-data-etl"
 
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.py
-#    - include-me-dir/**
-exclude:
+package:
+  exclude:
     - venv/**
 
 functions:
   hello:
     handler: handler.hello
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
-
-# you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
+    events:
+      - s3:
+          bucket: covid-19-data-etl-timothygithinji
+          existing: true
+          event: s3:ObjectCreated:Put
+          rules:
+            - prefix: data/
+            - suffix: .csv
 
 plugins:
   - serverless-python-requirements

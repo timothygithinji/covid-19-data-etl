@@ -21,7 +21,7 @@ def hello(event, context):
     
     # SNS Client
     sns = boto3.client('sns')
-    topic_arn = 'arn:aws:sns:us-east-1:144272576793:covid-19-etl-SNS'
+    topic_arn = 'arn:aws:sns:us-east-1:144272576793:covid-19-data-etl'
     message = 'New data saved to S3 bucket'
     sns.publish(TopicArn=topic_arn,Message=message)
 
