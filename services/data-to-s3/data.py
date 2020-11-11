@@ -4,22 +4,22 @@ def main():
     # Read New York Times COVID-19 Dataset from Github
     nytimes_df = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv')
 
-    # Convert datetype to date
+    # Convert datatype to date
     nytimes_df['date'] = pd.to_datetime(nytimes_df['date'])
 
     # Read John Hopkins COVID-19 dateset from Github
     jhopkins_df = pd.read_csv('https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv')
 
-    # Delete 'Province/State', 'Confirmed' & 'Deaths' columns as we don't need this data
+    # Delete 'Province/State', 'Confirmed' & 'Deaths' columns
     jhopkins_df = jhopkins_df.drop(['Province/State', 'Confirmed', 'Deaths'], axis=1)
 
-    # Filter row where 'Country/Region' equal to 'US' as we only need US statistics
+    # Filter row where 'Country/Region' equal to 'US'
     jhopkins_df = jhopkins_df[jhopkins_df['Country/Region'] == 'US']
 
-    # Delete 'Country/Region' column as we dont need this data
+    # Delete 'Country/Region' column
     jhopkins_df = jhopkins_df.drop(['Country/Region'], axis=1)
 
-    # Rename 'Date' to 'date' & 'Recovered' to 'recovered' for consistant when merging
+    # Rename 'Date' to 'date' & 'Recovered' to 'recovered'
     jhopkins_df = jhopkins_df.rename(columns={'Date': 'date', 'Recovered': 'recovered'})
 
     # Convert data type to date
