@@ -7,7 +7,7 @@ A Cloud Guru ran a cloud challenage to build an event driven python ETL using co
 Automate an ETL processing pipeline for COVID-19 data using Python and cloud services. 
 
 ## Challenge Outcome
-- [Live Demo](app.redash.io/timothygithinji/dashboard/us-covid-data)
+- [Live Demo (Note: Dashboard expired](app.redash.io/timothygithinji/dashboard/us-covid-data)
 
 ## Architecture
 
